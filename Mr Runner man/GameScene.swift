@@ -10,43 +10,73 @@ import SpriteKit
 import GameplayKit
 
 struct physicsCategory {
-    static let playerPhysics : UInt32 = 0x1 << 1
-    static let groundPhysics : UInt32 = 0x1 << 2
-    static let enemyPhysics  : UInt32 = 0x1 << 3
-    static let scorePhysics  : UInt32 = 0x1 << 4
+   static let playerPhysics : UInt32 = 0x1 << 0
+   static let groundPhysics : UInt32 = 0x1 << 1
+   static let enemyPhysics  : UInt32 = 0x1 << 2
+//   static let scorePhysics  : UInt32 = 0x1 << 3
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var ground     = SKSpriteNode()
     var background = SKSpriteNode()
+    var grass      = SKSpriteNode()
     
     var player     = SKSpriteNode()
     var enemy      = SKSpriteNode()
     
-    var scoreNode  = SKSpriteNode()
+//    var scoreNode  = SKSpriteNode()
     var score      = Int()
+    var scoreLabel = SKLabelNode()
+    var timer      = Int()
+    var restartButton = SKSpriteNode()
     
-    var canJump = false
+    var canJump    = false
+    var playerDied = Bool()
     
     var moveAndRemove = SKAction()
     
     var playerAtlas = SKTextureAtlas()
     var enemyAtlas  = SKTextureAtlas()
     var playerArray = [SKTexture]()
+    var gameOverAtlas = SKTextureAtlas()
     
     var gameStarted = Bool()
     
+    
     override func didMove(to view: SKView) {
         
+       createGame()
+    
+    }
+    
+    func createGame(){
+        
+        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.physicsWorld.contactDelegate = self
         
+        scoreLabel.position = CGPoint(x: 0, y: 120)
+        scoreLabel.text = "Press To Start"
+        scoreLabel.name = "Scorelabel"
+        scoreLabel.fontColor = SKColor.white
+        scoreLabel.fontSize = 70
+        scoreLabel.zPosition = 5
+        addChild(scoreLabel)
         
-        createGround()
+        createGroundAndGrass()
         createBackground()
         playerRun()
-        
+            }
 
+    func restartGame(){
+    
+        self.removeAllChildren()
+        self.removeAllActions()
+        playerDied = false
+        gameStarted = false
+        score = 0
+        createGame()
+    
     }
     
     
@@ -55,12 +85,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameStarted == false {
             
             gameStarted = true
-            
-            moveEnemies()
-            
-            
-        } else  {
-           
+            scoreLabel.text = "Seconds Survived \(score)"
+            moveEnemiesAndScoreNodes()
+            timertimer()
+
+        
             
         }
         
@@ -69,48 +98,136 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             canJump = false
         }
         
+        for touch in touches {
+            
+            let location = touch.location(in: self)
+            
+            if playerDied == true {
+                if restartButton.contains(location) {
+                    restartGame()
+                }
+                
+                
+            }
+        }
+    }
+    
+    func timertimer() {
+        let wait = SKAction.wait(forDuration:1)
+        let action = SKAction.run {
+            self.score += 1
+            self.updateScore()
+        }
+        run(SKAction.repeatForever(SKAction.sequence([wait,action])))
+    }
+    
+    func updateScore() {
+        scoreLabel.removeFromParent()
+        scoreLabel.text = "Seconds Survived \(score)"
+        addChild(scoreLabel)
     }
     
     func jump() {
-        player = SKSpriteNode(imageNamed: "playerGround")
-        player = SKSpriteNode(imageNamed: "playerJump")
+        if playerDied == true {
+            
+        } else {
         player.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
         player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 500))
+        }
+    
     }
 
 //    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+//
 //    }
 //
 //    func touchUp(atPoint pos: CGPoint) {
-//        player = SKSpriteNode(imageNamed: "playerGround")
-//        player = SKSpriteNode(imageNamed: playerAtlas.textureNames[0])
+//
 //    }
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         moveGround()
         moveBackground()
+    }
+    
+    func createRestartButton() {
+        
+        var gameOverArray  = [SKTexture]()
+        
+        gameOverAtlas = SKTextureAtlas(named: "gameover")
+        
+        for i in 1...gameOverAtlas.textureNames.count {
+            
+            let gameOverName = "gameover\(i).png"
+            gameOverArray.append(SKTexture(imageNamed: gameOverName))
+        }
+        restartButton = SKSpriteNode(imageNamed: gameOverAtlas.textureNames[0])
+        restartButton.run(SKAction.repeatForever(SKAction.animate(with: gameOverArray, timePerFrame: 0.5)))
+        restartButton.position = CGPoint(x: 0, y: -50)
+        restartButton.zPosition = 6
+        restartButton.setScale(0)
+        addChild(restartButton)
+        
+        restartButton.run(SKAction.scale(to: 1.0, duration: 2))
         
     }
+    
+    
     
                                             //Creates contact
     
     func didBegin(_ contact: SKPhysicsContact) {
+        
+//        let scoreCollision:UInt32 = contact.bodyA.contactTestBitMask | contact.bodyB.contactTestBitMask
+//
+//        if scoreCollision == physicsCategory.playerPhysics | physicsCategory.scorePhysics {
+//            score += 1
+//            print("score ")
+//        }
+        
         let firstBody = contact.bodyA
         let secondBody = contact.bodyB
         
-        if firstBody.categoryBitMask == physicsCategory.scorePhysics && secondBody.contactTestBitMask == physicsCategory.playerPhysics ||
-           firstBody.categoryBitMask == physicsCategory.playerPhysics && secondBody.contactTestBitMask == physicsCategory.scorePhysics{
+        //print("\(firstBody.node?.name) vs \(secondBody.node?.name)")
+//        if firstBody.node?.name == "Player" && secondBody.node?.name == "ScoreNode" ||
+//           firstBody.node?.name == "ScoreNode" && secondBody.node?.name == "Player" {
+//
+//            score += 1
+//            scoreLabel.text = String(score)
+//            print("ScoreNode hit")
+//        }
+        
+        if firstBody.node?.name == "Player" && secondBody.node?.name == "Ground" ||
+           firstBody.node?.name == "Ground" && secondBody.node?.name == "Player" {
             
-            score += 1
-            print(score)
+            canJump = true
+            print("Jumped")
         }
         
-        if firstBody.categoryBitMask == physicsCategory.playerPhysics && secondBody.contactTestBitMask == physicsCategory.groundPhysics ||
-            firstBody.categoryBitMask == physicsCategory.groundPhysics && secondBody.contactTestBitMask == physicsCategory.playerPhysics{
-            canJump = true
+        if firstBody.node?.name == "Player" && secondBody.node?.name == "Enemy" ||
+           firstBody.node?.name == "Enemy" && secondBody.node?.name == "Player" {
+            
+            
+            enumerateChildNodes(withName: "Enemy", using: ({
+                (node, error) in
+                node.speed = 0
+                self.removeAllActions()
+            }))
+            enumerateChildNodes(withName: "Player", using: ({
+                (node, error) in
+                node.speed = 0
+                self.removeAllActions()
+            }))
+          
+            if playerDied == false {
+                print("died")
+                playerDied = true
+                createRestartButton()
+            }
+            
         }
+        
     }
     
                                             //Creates player
@@ -124,6 +241,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         player = SKSpriteNode(imageNamed: playerAtlas.textureNames[0])
+        player.name = "Player"
         player.setScale(0.7)
         player.position = CGPoint(x: size.width * -0.2, y: size.height * -0.33)
         player.run(SKAction.repeatForever(SKAction.animate(with: playerArray, timePerFrame: 0.15)))
@@ -131,19 +249,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.categoryBitMask = physicsCategory.playerPhysics
         player.physicsBody?.collisionBitMask = physicsCategory.groundPhysics | physicsCategory.enemyPhysics
-        player.physicsBody?.contactTestBitMask = physicsCategory.groundPhysics | physicsCategory.enemyPhysics | physicsCategory.scorePhysics
+        player.physicsBody?.contactTestBitMask = physicsCategory.groundPhysics | physicsCategory.enemyPhysics
         player.physicsBody?.affectedByGravity = true
         player.physicsBody?.isDynamic = true
         player.zPosition = 1
-       // player = (self.childNode(withName: "player") as? SKSpriteNode)!
         
         self.addChild(player)
         
     }
     
-                                //Creates and moves enemies and scoreNodes
+                                //Creates and moves enemies and scorenodes
     
-    func createEnemies() {
+    func createEnemiesAndScoreNodes() {
         var whichEnemy : String
         let randomNr = Int(arc4random_uniform(3))
         var enemyArray  = [SKTexture]()
@@ -164,65 +281,64 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemyArray.append(SKTexture(imageNamed: enemyName))
         }
         
-        scoreNode = SKSpriteNode()
-        scoreNode.size = CGSize(width: 1, height: 500)
-        scoreNode.position = CGPoint(x: enemy.size.width, y: size.height * 0.4)
-        scoreNode.physicsBody? = SKPhysicsBody(rectangleOf: scoreNode.size)
-        scoreNode.physicsBody?.categoryBitMask = physicsCategory.scorePhysics
-        scoreNode.physicsBody?.collisionBitMask = 0
-        scoreNode.physicsBody?.contactTestBitMask = physicsCategory.playerPhysics
-        scoreNode.physicsBody?.affectedByGravity = false
-        scoreNode.physicsBody?.isDynamic = false
-        scoreNode.color = SKColor.blue
+//        scoreNode = SKSpriteNode(imageNamed: "playerJump")
+//        scoreNode.name = "ScoreNode"
+//        scoreNode.size = CGSize(width: 500, height: 500)
+//        scoreNode.position = CGPoint(x: enemy.size.width, y: size.height * 0.4)
+//        scoreNode.physicsBody? = SKPhysicsBody(rectangleOf: scoreNode.size)
+//        scoreNode.physicsBody?.categoryBitMask = physicsCategory.scorePhysics
+//        scoreNode.physicsBody?.affectedByGravity = false
+//        scoreNode.physicsBody?.isDynamic = false
+//        scoreNode.color = SKColor.blue
         
         
         enemy = SKSpriteNode(imageNamed: enemyAtlas.textureNames[0])
+        enemy.name = "Enemy"
         enemy.setScale(0.7)
         enemy.run(SKAction.repeatForever(SKAction.animate(with: enemyArray, timePerFrame: 0.15)))
-        enemy.position = CGPoint(x: size.width * 0.7, y: size.height * -0.21)
+        enemy.position = CGPoint(x: size.width * 0.7, y: size.height * -0.25)
         
         enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
         enemy.physicsBody?.categoryBitMask = physicsCategory.enemyPhysics
-        enemy.physicsBody?.collisionBitMask = physicsCategory.playerPhysics
-        enemy.physicsBody?.contactTestBitMask = physicsCategory.playerPhysics
         enemy.physicsBody?.affectedByGravity = false
         enemy.physicsBody?.isDynamic = false
         
-        enemy.addChild(scoreNode)
         enemy.run(moveAndRemove)
         enemy.zPosition = 1
         
+//        enemy.addChild(scoreNode)
         self.addChild(enemy)
         
     }
     
-    func moveEnemies() {
+    func moveEnemiesAndScoreNodes() {
         let spawn = SKAction.run ({
             () in
             
-            self.createEnemies()
+            self.createEnemiesAndScoreNodes()
         })
         
         let delay = SKAction.wait(forDuration: 4.0)
         let spawnDelay = SKAction.sequence([spawn, delay])
-        let spawnDelayForever =  SKAction.repeatForever(spawnDelay)
+        let spawnDelayForever = SKAction.repeatForever(spawnDelay)
         self.run(spawnDelayForever)
         
-        let distance = CGFloat(self.frame.width + enemy.frame.width)
-        let moveEnemies = SKAction.moveBy(x: -distance, y: 0, duration: (TimeInterval(0.005 * distance)))
+        let distance = CGFloat(self.frame.width)
+        let moveEnemies = SKAction.moveBy(x: -distance, y: 0, duration: (TimeInterval(0.003 * distance)))
         let removeEnemies = SKAction.removeFromParent()
+            
         
         moveAndRemove = SKAction.sequence([moveEnemies, removeEnemies])
     }
     
-                                     //Creates and moves ground
+                                     //Creates and moves ground & grass
     
-    func createGround() {
+    func createGroundAndGrass() {
         for i in 0...3 {
             
             ground = SKSpriteNode(imageNamed: "ground")
             ground.name = "Ground"
-            ground.size = CGSize(width: (self.scene?.size.width)!, height: 100)
+            ground.size = CGSize(width: (self.scene?.size.width)!, height: 80)
             ground.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             ground.position = CGPoint(x: CGFloat(i) * ground.size.width, y: -(self.frame.size.height / 2))
             
@@ -234,21 +350,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ground.physicsBody?.isDynamic = false
             ground.zPosition = 1
             
+            grass = SKSpriteNode(imageNamed: "grass")
+            grass.name = "Grass"
+            grass.size = CGSize(width: (self.scene?.size.width)!, height: 100)
+            grass.anchorPoint = CGPoint(x: 0.5, y: 0.2)
+            grass.position = CGPoint(x: CGFloat(i) * grass.size.width, y: -(self.frame.size.height / 2))
+            grass.zPosition = 4
+            //grass.speed
+            
             self.addChild(ground)
+            self.addChild(grass)
         }
     }
     
     
     func moveGround() {
         
-        self.enumerateChildNodes(withName: "Ground", using: ({
+        self.enumerateChildNodes(withName: "Grass", using: ({
             (node, error) in
             
-            node.position.x -= 2
+            let bg = node as! SKSpriteNode
             
-            if node.position.x < -((self.scene?.size.width)!) {
-                
-                node.position.x += (self.scene?.size.width)! * 3
+            bg.position = CGPoint(x: bg.position.x - 20, y: bg.position.y)
+            
+            if bg.position.x < -((self.scene?.size.width)!){
+                bg.position.x += (self.scene?.size.width)! * 3
             }
         }))
     }
@@ -270,12 +396,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.enumerateChildNodes(withName: "Background", using: ({
             (node, error) in
 
-            node.position.x -= 2
-
-            if node.position.x < -((self.scene?.size.width)!) {
-
-                node.position.x += (self.scene?.size.width)! * 3
+            let bg = node as! SKSpriteNode
+            
+            bg.position = CGPoint(x: bg.position.x - 10, y: bg.position.y)
+            
+            if bg.position.x < -((self.scene?.size.width)!){
+                bg.position.x += (self.scene?.size.width)! * 3
             }
+//            node.position.x -= 2
+//
+//            if node.position.x < -((self.scene?.size.width)!) {
+//
+//                node.position.x += (self.scene?.size.width)! * 3
+//            }
         }))
     }
 }

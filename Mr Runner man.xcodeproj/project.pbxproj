@@ -15,10 +15,11 @@
 		D9601B112084C4810009AE0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9601B0F2084C4810009AE0E /* Main.storyboard */; };
 		D9601B132084C4860009AE0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9601B122084C4860009AE0E /* Assets.xcassets */; };
 		D9601B162084C4860009AE0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9601B142084C4860009AE0E /* LaunchScreen.storyboard */; };
-		D9601B28208527620009AE0E /* enemy2.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9601B25208527610009AE0E /* enemy2.atlas */; };
-		D9601B29208527620009AE0E /* enemy1.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9601B26208527620009AE0E /* enemy1.atlas */; };
-		D9601B2A208527620009AE0E /* enemy3.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9601B27208527620009AE0E /* enemy3.atlas */; };
-		D9601B2C20852B360009AE0E /* player.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9601B2B20852B360009AE0E /* player.atlas */; };
+		D9877C9E208A0F6100EBDDDA /* enemy2.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9877C9A208A0F6100EBDDDA /* enemy2.atlas */; };
+		D9877C9F208A0F6100EBDDDA /* enemy1.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9877C9B208A0F6100EBDDDA /* enemy1.atlas */; };
+		D9877CA0208A0F6100EBDDDA /* enemy3.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9877C9C208A0F6100EBDDDA /* enemy3.atlas */; };
+		D9877CA1208A0F6100EBDDDA /* player.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9877C9D208A0F6100EBDDDA /* player.atlas */; };
+		D9BC64862099CD250093B2C4 /* gameover.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9BC64852099CD250093B2C4 /* gameover.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,10 +33,11 @@
 		D9601B122084C4860009AE0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9601B152084C4860009AE0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D9601B172084C4860009AE0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D9601B25208527610009AE0E /* enemy2.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy2.atlas; sourceTree = "<group>"; };
-		D9601B26208527620009AE0E /* enemy1.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy1.atlas; sourceTree = "<group>"; };
-		D9601B27208527620009AE0E /* enemy3.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemy3.atlas; sourceTree = "<group>"; };
-		D9601B2B20852B360009AE0E /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = player.atlas; sourceTree = "<group>"; };
+		D9877C9A208A0F6100EBDDDA /* enemy2.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = enemy2.atlas; path = "../../../../Dropbox/Simons runner/enemy2.atlas"; sourceTree = "<group>"; };
+		D9877C9B208A0F6100EBDDDA /* enemy1.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = enemy1.atlas; path = "../../../../Dropbox/Simons runner/enemy1.atlas"; sourceTree = "<group>"; };
+		D9877C9C208A0F6100EBDDDA /* enemy3.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = enemy3.atlas; path = "../../../../Dropbox/Simons runner/enemy3.atlas"; sourceTree = "<group>"; };
+		D9877C9D208A0F6100EBDDDA /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = player.atlas; path = "../../../../Dropbox/Simons runner/player.atlas"; sourceTree = "<group>"; };
+		D9BC64852099CD250093B2C4 /* gameover.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = gameover.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,10 +70,11 @@
 		D9601B042084C4810009AE0E /* Mr Runner man */ = {
 			isa = PBXGroup;
 			children = (
-				D9601B26208527620009AE0E /* enemy1.atlas */,
-				D9601B25208527610009AE0E /* enemy2.atlas */,
-				D9601B27208527620009AE0E /* enemy3.atlas */,
-				D9601B2B20852B360009AE0E /* player.atlas */,
+				D9877C9B208A0F6100EBDDDA /* enemy1.atlas */,
+				D9877C9A208A0F6100EBDDDA /* enemy2.atlas */,
+				D9877C9C208A0F6100EBDDDA /* enemy3.atlas */,
+				D9877C9D208A0F6100EBDDDA /* player.atlas */,
+				D9BC64852099CD250093B2C4 /* gameover.atlas */,
 				D9601B052084C4810009AE0E /* AppDelegate.swift */,
 				D9601B072084C4810009AE0E /* GameScene.sks */,
 				D9601B092084C4810009AE0E /* Actions.sks */,
@@ -143,14 +146,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9601B2C20852B360009AE0E /* player.atlas in Resources */,
 				D9601B112084C4810009AE0E /* Main.storyboard in Resources */,
+				D9BC64862099CD250093B2C4 /* gameover.atlas in Resources */,
+				D9877CA0208A0F6100EBDDDA /* enemy3.atlas in Resources */,
+				D9877C9F208A0F6100EBDDDA /* enemy1.atlas in Resources */,
+				D9877CA1208A0F6100EBDDDA /* player.atlas in Resources */,
 				D9601B082084C4810009AE0E /* GameScene.sks in Resources */,
 				D9601B132084C4860009AE0E /* Assets.xcassets in Resources */,
+				D9877C9E208A0F6100EBDDDA /* enemy2.atlas in Resources */,
 				D9601B162084C4860009AE0E /* LaunchScreen.storyboard in Resources */,
-				D9601B28208527620009AE0E /* enemy2.atlas in Resources */,
-				D9601B29208527620009AE0E /* enemy1.atlas in Resources */,
-				D9601B2A208527620009AE0E /* enemy3.atlas in Resources */,
 				D9601B0A2084C4810009AE0E /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
