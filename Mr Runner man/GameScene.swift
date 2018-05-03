@@ -24,6 +24,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var grass      = SKSpriteNode()
     
     var player     = SKSpriteNode()
+    var whichRunner = ""
+    var whichArray = ""
     var enemy      = SKSpriteNode()
     
     var score      = Int()
@@ -38,7 +40,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     
     var playerAtlas = SKTextureAtlas()
     var enemyAtlas  = SKTextureAtlas()
-    var playerArray = [SKTexture]()
     var gameOverAtlas = SKTextureAtlas()
     
     var dancer1      = SKSpriteNode()
@@ -114,8 +115,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         run(backgroundmusic)
     }
     
-    
-    
     func playDeathSound(deathsound : SKAction) {
         run(deathsound)
     }
@@ -126,18 +125,137 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        if gameStarted == false {
+        
+        for touch in touches {
+           
+            let location = touch.location(in: self)
             
-            self.removeAllChildren()
-            self.removeAllActions()
-            
-            gameStarted = true
-            createGroundAndGrass()
-            createBackground()
-            scoreLabel.text = "Seconds Survived \(score)"
-            moveEnemies()
-            timertimer()
-            playerRun()
+            if gameStarted == false {
+                
+                if dancer1.contains(location) {
+                    
+                self.removeAllChildren()
+                self.removeAllActions()
+                    
+                whichRunner = "batRunner"
+                whichArray = "batRun"
+                gameStarted = true
+                createGroundAndGrass()
+                createBackground()
+                scoreLabel.text = "Seconds Survived \(score)"
+                moveEnemies()
+                timertimer()
+                playerRun()
+                    
+                } else if dancer2.contains(location) {
+                    
+                    self.removeAllChildren()
+                    self.removeAllActions()
+                    
+                    whichRunner = "davisRunner"
+                    whichArray = "davisRun"
+                    gameStarted = true
+                    createGroundAndGrass()
+                    createBackground()
+                    scoreLabel.text = "Seconds Survived \(score)"
+                    moveEnemies()
+                    timertimer()
+                    playerRun()
+                    
+                } else if dancer3.contains(location) {
+                    
+                    self.removeAllChildren()
+                    self.removeAllActions()
+                    
+                    whichRunner = "dennisRunner"
+                    whichArray = "dennisRun"
+                    gameStarted = true
+                    createGroundAndGrass()
+                    createBackground()
+                    scoreLabel.text = "Seconds Survived \(score)"
+                    moveEnemies()
+                    timertimer()
+                    playerRun()
+                    
+                } else if dancer4.contains(location) {
+                    
+                    self.removeAllChildren()
+                    self.removeAllActions()
+                    
+                    whichRunner = "firenRunner"
+                    whichArray = "firenRun"
+                    gameStarted = true
+                    createGroundAndGrass()
+                    createBackground()
+                    scoreLabel.text = "Seconds Survived \(score)"
+                    moveEnemies()
+                    timertimer()
+                    playerRun()
+                    
+                } else if dancer5.contains(location) {
+                    
+                    self.removeAllChildren()
+                    self.removeAllActions()
+                    
+                    whichRunner = "firzenRunner"
+                    whichArray = "firzenRun"
+                    gameStarted = true
+                    createGroundAndGrass()
+                    createBackground()
+                    scoreLabel.text = "Seconds Survived \(score)"
+                    moveEnemies()
+                    timertimer()
+                    playerRun()
+                    
+                } else if dancer6.contains(location) {
+                    
+                    self.removeAllChildren()
+                    self.removeAllActions()
+                    
+                    whichRunner = "freezeRunner"
+                    whichArray = "freezeRun"
+                    gameStarted = true
+                    createGroundAndGrass()
+                    createBackground()
+                    scoreLabel.text = "Seconds Survived \(score)"
+                    moveEnemies()
+                    timertimer()
+                    playerRun()
+                    
+                } else if dancer7.contains(location) {
+                    
+                    self.removeAllChildren()
+                    self.removeAllActions()
+                    
+                    whichRunner = "rudolfRunner"
+                    whichArray = "rudolfRun"
+                    gameStarted = true
+                    createGroundAndGrass()
+                    createBackground()
+                    scoreLabel.text = "Seconds Survived \(score)"
+                    moveEnemies()
+                    timertimer()
+                    playerRun()
+                    
+                } else if dancer8.contains(location) {
+                    
+                    self.removeAllChildren()
+                    self.removeAllActions()
+                    
+                    whichRunner = "woodyRunner"
+                    whichArray = "woodyRun"
+                    gameStarted = true
+                    createGroundAndGrass()
+                    createBackground()
+                    scoreLabel.text = "Seconds Survived \(score)"
+                    moveEnemies()
+                    timertimer()
+                    playerRun()
+                    
+                }
+        }
+        
+        
 
         
             
@@ -162,6 +280,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
                 
             }
         }
+        
     }
     
     func timertimer() {
@@ -184,7 +303,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
             
         } else {
         player.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-        player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 500))
+        player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 525))
         }
     
     }
@@ -262,17 +381,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     
                                             //Creates player
     func playerRun() {
-        playerAtlas = SKTextureAtlas(named: "player")
+        
+        var playerArray = [SKTexture]()
+        
+        playerAtlas = SKTextureAtlas(named: "\(whichRunner)")
         
         for i in 1...playerAtlas.textureNames.count {
             
-            let playerName = "playerRun\(i).png"
+            let playerName = "\(whichArray)\(i).png"
             playerArray.append(SKTexture(imageNamed: playerName))
         }
         
         player = SKSpriteNode(imageNamed: playerAtlas.textureNames[0])
         player.name = "Player"
-        player.setScale(0.7)
+        player.setScale(1.5)
         player.position = CGPoint(x: size.width * -0.2, y: size.height * -0.33)
         player.run(SKAction.repeatForever(SKAction.animate(with: playerArray, timePerFrame: 0.15)))
         

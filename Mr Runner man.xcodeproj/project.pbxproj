@@ -18,7 +18,6 @@
 		D9877C9E208A0F6100EBDDDA /* enemy2.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9877C9A208A0F6100EBDDDA /* enemy2.atlas */; };
 		D9877C9F208A0F6100EBDDDA /* enemy1.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9877C9B208A0F6100EBDDDA /* enemy1.atlas */; };
 		D9877CA0208A0F6100EBDDDA /* enemy3.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9877C9C208A0F6100EBDDDA /* enemy3.atlas */; };
-		D9877CA1208A0F6100EBDDDA /* player.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9877C9D208A0F6100EBDDDA /* player.atlas */; };
 		D9BC64862099CD250093B2C4 /* gameover.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9BC64852099CD250093B2C4 /* gameover.atlas */; };
 		D9BC648A209B505A0093B2C4 /* death.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D9BC6487209B50590093B2C4 /* death.mp3 */; };
 		D9BC648C209B505A0093B2C4 /* jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D9BC6489209B505A0093B2C4 /* jump.mp3 */; };
@@ -32,6 +31,14 @@
 		D9BC64C4209B9F070093B2C4 /* dennis.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9BC64BC209B9F070093B2C4 /* dennis.atlas */; };
 		D9BC64C5209B9F070093B2C4 /* firen.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9BC64BD209B9F070093B2C4 /* firen.atlas */; };
 		D9BC64C6209B9F070093B2C4 /* woody.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9BC64BE209B9F070093B2C4 /* woody.atlas */; };
+		D9C5C896209BB52D001FA366 /* batRunner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9C5C895209BB52D001FA366 /* batRunner.atlas */; };
+		D9C5C898209BB54B001FA366 /* davisRunner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9C5C897209BB54B001FA366 /* davisRunner.atlas */; };
+		D9C5C89A209BB557001FA366 /* dennisRunner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9C5C899209BB557001FA366 /* dennisRunner.atlas */; };
+		D9C5C89C209BB565001FA366 /* firenRunner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9C5C89B209BB565001FA366 /* firenRunner.atlas */; };
+		D9C5C89E209BB56E001FA366 /* freezeRunner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9C5C89D209BB56E001FA366 /* freezeRunner.atlas */; };
+		D9C5C8A0209BB574001FA366 /* rudolfRunner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9C5C89F209BB574001FA366 /* rudolfRunner.atlas */; };
+		D9C5C8A2209BB579001FA366 /* woodyRunner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9C5C8A1209BB579001FA366 /* woodyRunner.atlas */; };
+		D9C5C8A4209BBAC3001FA366 /* firzenRunner.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D9C5C8A3209BBAC2001FA366 /* firzenRunner.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +55,6 @@
 		D9877C9A208A0F6100EBDDDA /* enemy2.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = enemy2.atlas; path = "../../../../Dropbox/Simons runner/enemy2.atlas"; sourceTree = "<group>"; };
 		D9877C9B208A0F6100EBDDDA /* enemy1.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = enemy1.atlas; path = "../../../../Dropbox/Simons runner/enemy1.atlas"; sourceTree = "<group>"; };
 		D9877C9C208A0F6100EBDDDA /* enemy3.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = enemy3.atlas; path = "../../../../Dropbox/Simons runner/enemy3.atlas"; sourceTree = "<group>"; };
-		D9877C9D208A0F6100EBDDDA /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = player.atlas; path = "../../../../Dropbox/Simons runner/player.atlas"; sourceTree = "<group>"; };
 		D9BC64852099CD250093B2C4 /* gameover.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = gameover.atlas; sourceTree = "<group>"; };
 		D9BC6487209B50590093B2C4 /* death.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = death.mp3; sourceTree = "<group>"; };
 		D9BC6489209B505A0093B2C4 /* jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = jump.mp3; sourceTree = "<group>"; };
@@ -62,6 +68,14 @@
 		D9BC64BC209B9F070093B2C4 /* dennis.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = dennis.atlas; sourceTree = "<group>"; };
 		D9BC64BD209B9F070093B2C4 /* firen.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = firen.atlas; sourceTree = "<group>"; };
 		D9BC64BE209B9F070093B2C4 /* woody.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = woody.atlas; sourceTree = "<group>"; };
+		D9C5C895209BB52D001FA366 /* batRunner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = batRunner.atlas; sourceTree = "<group>"; };
+		D9C5C897209BB54B001FA366 /* davisRunner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = davisRunner.atlas; sourceTree = "<group>"; };
+		D9C5C899209BB557001FA366 /* dennisRunner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = dennisRunner.atlas; sourceTree = "<group>"; };
+		D9C5C89B209BB565001FA366 /* firenRunner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = firenRunner.atlas; sourceTree = "<group>"; };
+		D9C5C89D209BB56E001FA366 /* freezeRunner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = freezeRunner.atlas; sourceTree = "<group>"; };
+		D9C5C89F209BB574001FA366 /* rudolfRunner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = rudolfRunner.atlas; sourceTree = "<group>"; };
+		D9C5C8A1209BB579001FA366 /* woodyRunner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = woodyRunner.atlas; sourceTree = "<group>"; };
+		D9C5C8A3209BBAC2001FA366 /* firzenRunner.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = firzenRunner.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,17 +111,24 @@
 				D9877C9B208A0F6100EBDDDA /* enemy1.atlas */,
 				D9877C9A208A0F6100EBDDDA /* enemy2.atlas */,
 				D9877C9C208A0F6100EBDDDA /* enemy3.atlas */,
-				D9877C9D208A0F6100EBDDDA /* player.atlas */,
 				D9BC64852099CD250093B2C4 /* gameover.atlas */,
 				D9BC6495209B72000093B2C4 /* disco.atlas */,
 				D9BC64BB209B9F070093B2C4 /* bat.atlas */,
+				D9C5C895209BB52D001FA366 /* batRunner.atlas */,
 				D9BC64BA209B9F070093B2C4 /* davis.atlas */,
+				D9C5C897209BB54B001FA366 /* davisRunner.atlas */,
 				D9BC64BC209B9F070093B2C4 /* dennis.atlas */,
+				D9C5C899209BB557001FA366 /* dennisRunner.atlas */,
 				D9BC64BD209B9F070093B2C4 /* firen.atlas */,
+				D9C5C89B209BB565001FA366 /* firenRunner.atlas */,
 				D9BC64B7209B9F060093B2C4 /* firzen.atlas */,
+				D9C5C8A3209BBAC2001FA366 /* firzenRunner.atlas */,
 				D9BC64B8209B9F060093B2C4 /* freeze.atlas */,
+				D9C5C89D209BB56E001FA366 /* freezeRunner.atlas */,
 				D9BC64B9209B9F060093B2C4 /* rudolf.atlas */,
+				D9C5C89F209BB574001FA366 /* rudolfRunner.atlas */,
 				D9BC64BE209B9F070093B2C4 /* woody.atlas */,
+				D9C5C8A1209BB579001FA366 /* woodyRunner.atlas */,
 				D9BC6497209B72E80093B2C4 /* backgroundmusic.mp3 */,
 				D9BC6487209B50590093B2C4 /* death.mp3 */,
 				D9BC6489209B505A0093B2C4 /* jump.mp3 */,
@@ -190,19 +211,26 @@
 				D9BC6498209B72E80093B2C4 /* backgroundmusic.mp3 in Resources */,
 				D9877C9F208A0F6100EBDDDA /* enemy1.atlas in Resources */,
 				D9BC64C2209B9F070093B2C4 /* davis.atlas in Resources */,
+				D9C5C8A4209BBAC3001FA366 /* firzenRunner.atlas in Resources */,
 				D9BC64C4209B9F070093B2C4 /* dennis.atlas in Resources */,
-				D9877CA1208A0F6100EBDDDA /* player.atlas in Resources */,
 				D9BC64C6209B9F070093B2C4 /* woody.atlas in Resources */,
 				D9BC64C5209B9F070093B2C4 /* firen.atlas in Resources */,
+				D9C5C896209BB52D001FA366 /* batRunner.atlas in Resources */,
 				D9601B082084C4810009AE0E /* GameScene.sks in Resources */,
 				D9BC6496209B72000093B2C4 /* disco.atlas in Resources */,
 				D9BC64C3209B9F070093B2C4 /* bat.atlas in Resources */,
 				D9601B132084C4860009AE0E /* Assets.xcassets in Resources */,
 				D9BC64BF209B9F070093B2C4 /* firzen.atlas in Resources */,
+				D9C5C8A2209BB579001FA366 /* woodyRunner.atlas in Resources */,
 				D9BC648C209B505A0093B2C4 /* jump.mp3 in Resources */,
+				D9C5C89E209BB56E001FA366 /* freezeRunner.atlas in Resources */,
+				D9C5C89C209BB565001FA366 /* firenRunner.atlas in Resources */,
 				D9877C9E208A0F6100EBDDDA /* enemy2.atlas in Resources */,
 				D9601B162084C4860009AE0E /* LaunchScreen.storyboard in Resources */,
 				D9BC64C1209B9F070093B2C4 /* rudolf.atlas in Resources */,
+				D9C5C8A0209BB574001FA366 /* rudolfRunner.atlas in Resources */,
+				D9C5C89A209BB557001FA366 /* dennisRunner.atlas in Resources */,
+				D9C5C898209BB54B001FA366 /* davisRunner.atlas in Resources */,
 				D9601B0A2084C4810009AE0E /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
