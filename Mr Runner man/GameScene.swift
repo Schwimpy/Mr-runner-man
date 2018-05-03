@@ -8,6 +8,7 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 struct physicsCategory {
    static let playerPhysics : UInt32 = 0x1 << 0
@@ -16,7 +17,7 @@ struct physicsCategory {
 //   static let scorePhysics  : UInt32 = 0x1 << 3
 }
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     
     var ground     = SKSpriteNode()
     var background = SKSpriteNode()
@@ -25,7 +26,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player     = SKSpriteNode()
     var enemy      = SKSpriteNode()
     
-//    var scoreNode  = SKSpriteNode()
     var score      = Int()
     var scoreLabel = SKLabelNode()
     var timer      = Int()
@@ -41,11 +41,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerArray = [SKTexture]()
     var gameOverAtlas = SKTextureAtlas()
     
+    var dancer1      = SKSpriteNode()
+    var dancer1Atlas = SKTextureAtlas()
+    
+    var dancer2      = SKSpriteNode()
+    var dancer2Atlas = SKTextureAtlas()
+    
+    var dancer3      = SKSpriteNode()
+    var dancer3Atlas = SKTextureAtlas()
+    
+    var dancer4      = SKSpriteNode()
+    var dancer4Atlas = SKTextureAtlas()
+    
+    var dancer5      = SKSpriteNode()
+    var dancer5Atlas = SKTextureAtlas()
+    
+    var dancer6      = SKSpriteNode()
+    var dancer6Atlas = SKTextureAtlas()
+    
+    var dancer7      = SKSpriteNode()
+    var dancer7Atlas = SKTextureAtlas()
+    
+    var dancer8      = SKSpriteNode()
+    var dancer8Atlas = SKTextureAtlas()
+    
+    var disco        = SKSpriteNode()
+    var discoAtlas   = SKTextureAtlas()
+    
     var gameStarted = Bool()
     
+    var backgroundMusic = SKAction.playSoundFileNamed("backgroundmusic.mp3", waitForCompletion: false)
+    var jumpSound       = SKAction.playSoundFileNamed("jump.mp3", waitForCompletion: false)
+    var deathSound      = SKAction.playSoundFileNamed("death.mp3", waitForCompletion: false)
     
     override func didMove(to view: SKView) {
-        
+       playBackgroundMusic(backgroundmusic: backgroundMusic)
        createGame()
     
     }
@@ -60,12 +90,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.name = "Scorelabel"
         scoreLabel.fontColor = SKColor.white
         scoreLabel.fontSize = 70
-        scoreLabel.zPosition = 5
+        scoreLabel.zPosition = 15
         addChild(scoreLabel)
+        createDisco()
+        createDancers()
+       
         
-        createGroundAndGrass()
-        createBackground()
-        playerRun()
+        
             }
 
     func restartGame(){
@@ -79,22 +110,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     }
     
+    func playBackgroundMusic(backgroundmusic : SKAction) {
+        run(backgroundmusic)
+    }
+    
+    
+    
+    func playDeathSound(deathsound : SKAction) {
+        run(deathsound)
+    }
+    
+    func playJumpSound(jumpsound : SKAction) {
+        run(jumpsound)
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if gameStarted == false {
             
+            self.removeAllChildren()
+            self.removeAllActions()
+            
             gameStarted = true
+            createGroundAndGrass()
+            createBackground()
             scoreLabel.text = "Seconds Survived \(score)"
-            moveEnemiesAndScoreNodes()
+            moveEnemies()
             timertimer()
+            playerRun()
 
         
             
         }
         
         if canJump {
+            
             jump()
+            playJumpSound(jumpsound: jumpSound)
             canJump = false
         }
         
@@ -136,15 +188,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     
     }
-
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//
-//    }
-//
-//    func touchUp(atPoint pos: CGPoint) {
-//
-//    }
-
+    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         moveGround()
@@ -165,7 +209,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         restartButton = SKSpriteNode(imageNamed: gameOverAtlas.textureNames[0])
         restartButton.run(SKAction.repeatForever(SKAction.animate(with: gameOverArray, timePerFrame: 0.5)))
         restartButton.position = CGPoint(x: 0, y: -50)
-        restartButton.zPosition = 6
+        restartButton.zPosition = 10
         restartButton.setScale(0)
         addChild(restartButton)
         
@@ -179,24 +223,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         
-//        let scoreCollision:UInt32 = contact.bodyA.contactTestBitMask | contact.bodyB.contactTestBitMask
-//
-//        if scoreCollision == physicsCategory.playerPhysics | physicsCategory.scorePhysics {
-//            score += 1
-//            print("score ")
-//        }
         
         let firstBody = contact.bodyA
         let secondBody = contact.bodyB
-        
-        //print("\(firstBody.node?.name) vs \(secondBody.node?.name)")
-//        if firstBody.node?.name == "Player" && secondBody.node?.name == "ScoreNode" ||
-//           firstBody.node?.name == "ScoreNode" && secondBody.node?.name == "Player" {
-//
-//            score += 1
-//            scoreLabel.text = String(score)
-//            print("ScoreNode hit")
-//        }
         
         if firstBody.node?.name == "Player" && secondBody.node?.name == "Ground" ||
            firstBody.node?.name == "Ground" && secondBody.node?.name == "Player" {
@@ -224,6 +253,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("died")
                 playerDied = true
                 createRestartButton()
+                playDeathSound(deathsound: deathSound)
             }
             
         }
@@ -257,10 +287,136 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(player)
         
     }
+                                    //Creates dancers.
+            //hade säkert gått att lägga i en loop som gjort mindre kod men hade brottom innan redovisningen
     
-                                //Creates and moves enemies and scorenodes
+    func createDancers() {
+        
+        var dancer1Array = [SKTexture]()
+        dancer1Atlas = SKTextureAtlas(named: "bat")
+        for i in 1...dancer1Atlas.textureNames.count {
+            let dancer1 = "bat\(i).png"
+            dancer1Array.append(SKTexture(imageNamed: dancer1))
+        }
+        dancer1 = SKSpriteNode(imageNamed: dancer1Atlas.textureNames[0])
+        dancer1.setScale(2)
+        dancer1.run(SKAction.repeatForever(SKAction.animate(with: dancer1Array, timePerFrame: 0.15)))
+        dancer1.position = CGPoint(x: -100, y: -100)
+        dancer1.zPosition = 14
+        addChild(dancer1)
+        
+        var dancer2Array = [SKTexture]()
+        dancer2Atlas = SKTextureAtlas(named: "davis")
+        for i in 1...dancer2Atlas.textureNames.count {
+            let dancer2 = "davis\(i).png"
+            dancer2Array.append(SKTexture(imageNamed: dancer2))
+        }
+        dancer2 = SKSpriteNode(imageNamed: dancer2Atlas.textureNames[0])
+        dancer2.setScale(1.2)
+        dancer2.run(SKAction.repeatForever(SKAction.animate(with: dancer2Array, timePerFrame: 0.10)))
+        dancer2.position = CGPoint(x: 70, y: 50)
+        dancer2.zPosition = 14
+        addChild(dancer2)
+        
+        var dancer3Array = [SKTexture]()
+        dancer3Atlas = SKTextureAtlas(named: "dennis")
+        for i in 1...dancer3Atlas.textureNames.count {
+            let dancer3 = "dennis\(i).png"
+            dancer3Array.append(SKTexture(imageNamed: dancer3))
+        }
+        dancer3 = SKSpriteNode(imageNamed: dancer3Atlas.textureNames[0])
+        dancer3.setScale(1.2)
+        dancer3.run(SKAction.repeatForever(SKAction.animate(with: dancer3Array, timePerFrame: 0.10)))
+        dancer3.position = CGPoint(x: -200, y: 20)
+        dancer3.zPosition = 14
+        addChild(dancer3)
+        
+        var dancer4Array = [SKTexture]()
+        dancer4Atlas = SKTextureAtlas(named: "firen")
+        for i in 1...dancer4Atlas.textureNames.count {
+            let dancer4 = "firen\(i).png"
+            dancer4Array.append(SKTexture(imageNamed: dancer4))
+        }
+        dancer4 = SKSpriteNode(imageNamed: dancer4Atlas.textureNames[0])
+        dancer4.setScale(1.7)
+        dancer4.run(SKAction.repeatForever(SKAction.animate(with: dancer4Array, timePerFrame: 0.10)))
+        dancer4.position = CGPoint(x: -270, y: -70)
+        dancer4.zPosition = 14
+        addChild(dancer4)
+        
+        var dancer5Array = [SKTexture]()
+        dancer5Atlas = SKTextureAtlas(named: "firzen")
+        for i in 1...dancer5Atlas.textureNames.count {
+            let dancer5 = "firzen\(i).png"
+            dancer5Array.append(SKTexture(imageNamed: dancer5))
+        }
+        dancer5 = SKSpriteNode(imageNamed: dancer5Atlas.textureNames[0])
+        dancer5.setScale(1.8)
+        dancer5.run(SKAction.repeatForever(SKAction.animate(with: dancer5Array, timePerFrame: 0.10)))
+        dancer5.position = CGPoint(x: 50, y: -80)
+        dancer5.zPosition = 14
+        addChild(dancer5)
+        
+        var dancer6Array = [SKTexture]()
+        dancer6Atlas = SKTextureAtlas(named: "freeze")
+        for i in 1...dancer6Atlas.textureNames.count {
+            let dancer6 = "freeze\(i).png"
+            dancer6Array.append(SKTexture(imageNamed: dancer6))
+        }
+        dancer6 = SKSpriteNode(imageNamed: dancer6Atlas.textureNames[0])
+        dancer6.setScale(1.9)
+        dancer6.run(SKAction.repeatForever(SKAction.animate(with: dancer6Array, timePerFrame: 0.10)))
+        dancer6.position = CGPoint(x: 250, y: -100)
+        dancer6.zPosition = 14
+        addChild(dancer6)
+        
+        var dancer7Array = [SKTexture]()
+        dancer7Atlas = SKTextureAtlas(named: "rudolf")
+        for i in 1...dancer7Atlas.textureNames.count {
+            let dancer7 = "rudolf\(i).png"
+            dancer7Array.append(SKTexture(imageNamed: dancer7))
+        }
+        dancer7 = SKSpriteNode(imageNamed: dancer7Atlas.textureNames[0])
+        dancer7.setScale(1.2)
+        dancer7.run(SKAction.repeatForever(SKAction.animate(with: dancer7Array, timePerFrame: 0.10)))
+        dancer7.position = CGPoint(x: -70, y: 40)
+        dancer7.zPosition = 14
+        addChild(dancer7)
+        
+        var dancer8Array = [SKTexture]()
+        dancer8Atlas = SKTextureAtlas(named: "woody")
+        for i in 1...dancer8Atlas.textureNames.count {
+            let dancer8 = "woody\(i).png"
+            dancer8Array.append(SKTexture(imageNamed: dancer8))
+        }
+        dancer8 = SKSpriteNode(imageNamed: dancer8Atlas.textureNames[0])
+        dancer8.setScale(1.4)
+        dancer8.run(SKAction.repeatForever(SKAction.animate(with: dancer8Array, timePerFrame: 0.10)))
+        dancer8.position = CGPoint(x: 200, y: 30)
+        dancer8.zPosition = 14
+        addChild(dancer8)
+    }
     
-    func createEnemiesAndScoreNodes() {
+                                //Creates disco
+    func createDisco() {
+        
+        var discoArray = [SKTexture]()
+        discoAtlas = SKTextureAtlas(named: "disco")
+        for i in 1...discoAtlas.textureNames.count {
+            let discoRoom = "disco\(i).png"
+            discoArray.append(SKTexture(imageNamed: discoRoom))
+        }
+        disco = SKSpriteNode(imageNamed: discoAtlas.textureNames[0])
+        disco.run(SKAction.repeatForever(SKAction.animate(with: discoArray, timePerFrame: 0.10)))
+        disco.size = CGSize(width: 800, height: 500)
+        disco.position = CGPoint(x: 0, y: 0)
+        disco.zPosition = 13
+        addChild(disco)
+    }
+    
+                                //Creates and moves enemies
+    
+    func createEnemies() {
         var whichEnemy : String
         let randomNr = Int(arc4random_uniform(3))
         var enemyArray  = [SKTexture]()
@@ -280,18 +436,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let enemyName = "enemy\(i).png"
             enemyArray.append(SKTexture(imageNamed: enemyName))
         }
-        
-//        scoreNode = SKSpriteNode(imageNamed: "playerJump")
-//        scoreNode.name = "ScoreNode"
-//        scoreNode.size = CGSize(width: 500, height: 500)
-//        scoreNode.position = CGPoint(x: enemy.size.width, y: size.height * 0.4)
-//        scoreNode.physicsBody? = SKPhysicsBody(rectangleOf: scoreNode.size)
-//        scoreNode.physicsBody?.categoryBitMask = physicsCategory.scorePhysics
-//        scoreNode.physicsBody?.affectedByGravity = false
-//        scoreNode.physicsBody?.isDynamic = false
-//        scoreNode.color = SKColor.blue
-        
-        
+      
         enemy = SKSpriteNode(imageNamed: enemyAtlas.textureNames[0])
         enemy.name = "Enemy"
         enemy.setScale(0.7)
@@ -306,16 +451,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.run(moveAndRemove)
         enemy.zPosition = 1
         
-//        enemy.addChild(scoreNode)
         self.addChild(enemy)
         
     }
     
-    func moveEnemiesAndScoreNodes() {
+    func moveEnemies() {
         let spawn = SKAction.run ({
             () in
             
-            self.createEnemiesAndScoreNodes()
+            self.createEnemies()
         })
         
         let delay = SKAction.wait(forDuration: 4.0)
@@ -355,7 +499,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             grass.size = CGSize(width: (self.scene?.size.width)!, height: 100)
             grass.anchorPoint = CGPoint(x: 0.5, y: 0.2)
             grass.position = CGPoint(x: CGFloat(i) * grass.size.width, y: -(self.frame.size.height / 2))
-            grass.zPosition = 4
+            grass.zPosition = 9
             //grass.speed
             
             self.addChild(ground)
@@ -403,12 +547,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if bg.position.x < -((self.scene?.size.width)!){
                 bg.position.x += (self.scene?.size.width)! * 3
             }
-//            node.position.x -= 2
-//
-//            if node.position.x < -((self.scene?.size.width)!) {
-//
-//                node.position.x += (self.scene?.size.width)! * 3
-//            }
         }))
     }
 }
