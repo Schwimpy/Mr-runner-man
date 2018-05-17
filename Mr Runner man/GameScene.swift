@@ -87,7 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         self.physicsWorld.contactDelegate = self
         
         scoreLabel.position = CGPoint(x: 0, y: 120)
-        scoreLabel.text = "Press To Start"
+        scoreLabel.text = "Choose Your Runner"
         scoreLabel.name = "Scorelabel"
         scoreLabel.fontColor = SKColor.white
         scoreLabel.fontSize = 70
@@ -672,28 +672,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
         }))
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
